@@ -4,10 +4,10 @@ import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] });
 
-const APP_NAME = "PWA App";
-const APP_DEFAULT_TITLE = "My Awesome PWA App";
-const APP_TITLE_TEMPLATE = "%s - PWA App";
-const APP_DESCRIPTION = "Best PWA app in the world!";
+const APP_NAME = "Secret Messager";
+const APP_DEFAULT_TITLE = "Secret Messager";
+const APP_TITLE_TEMPLATE = "%s - Secret Messager";
+const APP_DESCRIPTION = "A simple secret message sharing app";
 
 export const metadata = {
   applicationName: APP_NAME,

@@ -6,17 +6,19 @@ import EncryptMessage from "@/components/EncryptMessage";
 import DecryptMessage from "@/components/DecryptMessage";
 import { ArrowRight } from "lucide-react";
 import { LockClosedIcon, LockOpen1Icon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
 
-  React.useEffect(() => {
-    window.onload = () => {
-      const name = window.localStorage.getItem("name");
-      if (!name) {
-        window.location.href = "/";
-      }
-    };
-  });
+  const router = useRouter();
+
+  if(typeof window !== "undefined"){
+    const name = window.localStorage.getItem("name");
+    if (!name) {
+      router.push("/");
+    }
+  }
+  
   const [isClicked, setUsClicked] = useState(true);
   const handleClick = () => {
     setUsClicked(true);

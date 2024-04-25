@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+
 import { Label } from "@/components/ui/label";
 import { VercelLogoIcon } from "@radix-ui/react-icons";
 import {
@@ -23,16 +24,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   React.useEffect(() => {
-    window.onload = () => {
-      const name = window.localStorage.getItem("name");
-      if (name) {
-        window.location.href = "/home";
-      }
-    };
-  });
+    const name = window.localStorage.getItem("name");
+    if (name) {
+      router.push("/home");
+    }
+  
+  })
+
   const [name, setName] = useState();
 
   const handleInput = (event) => {
@@ -45,7 +49,7 @@ export default function Home() {
       const namee = `${name}-${randomNumber}`;
       window.localStorage.setItem("name", name);
       window.localStorage.setItem("database_name", namee);
-      window.location.href = "/home";
+      router.push("/home");
     } else {
       console.log("No name Entered.");
     }

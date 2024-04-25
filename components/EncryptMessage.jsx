@@ -21,6 +21,7 @@ const EncryptMessage = () => {
   const [password, setPassword] = useState();
   const [encrypted, setEncrypted] = useState();
   const [encryptedInput, setEncryptedInput] = useState();
+  const [messageInput, setMessageInput] = useState();
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
   const symbols = "!@#$%^&*()_+{}|:<>?~`-=[];',./".split("");
   const numbers = "0123456789".split("");
@@ -148,6 +149,7 @@ const EncryptMessage = () => {
 
   const handleMessageInput = (event) => {
     const message = event.target.value.toLowerCase();
+    setMessageInput(message);
     const encryptedMessage = message
       .split("")
       .map((char) => charToEmoji[char] || char)
@@ -168,11 +170,25 @@ const EncryptMessage = () => {
 
     window.localStorage.setItem("password", password);
     let data = {
+      message: messageInput,
       password: password,
       message: encryptedInput,
     };
 
+    let dataArray = {
+      message: [],
+      passwords: [],
+      encrypted_messages: [],
+    };
+
+    // Add the values to the respective arrays
+    dataArray.message.push(data.message);
+    dataArray.passwords.push(data.password);
+    dataArray.encrypted_messages.push(data.message);
+
     
+
+    window.localStorage.setItem("data", JSON.stringify(dataArray));
     setEncrypted(encryptedInput);
   };
 
