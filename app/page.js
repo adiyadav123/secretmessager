@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,21 +25,21 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function Home() {
-
-  window.onload = () => {
-    const name = window.localStorage.getItem("name");
-    if (name) {
-      
-      window.location.href = "/home";
-    }
-  };
+  React.useEffect(() => {
+    window.onload = () => {
+      const name = window.localStorage.getItem("name");
+      if (name) {
+        window.location.href = "/home";
+      }
+    };
+  });
   const [name, setName] = useState();
 
   const handleInput = (event) => {
     setName(event.target.value);
   };
 
-  const handleContinueClick = async() => {
+  const handleContinueClick = async () => {
     if (name) {
       const randomNumber = Math.round(Math.random() * 1000);
       const namee = `${name}-${randomNumber}`;
@@ -72,9 +72,7 @@ export default function Home() {
           onChange={handleInput}
         />
 
-
         <div className="h-[20px]"></div>
-
 
         <h1 className="text-[20px] font-bold">FAQs</h1>
         <Accordion type="single" collapsible className="w-full" id="faqs">
@@ -105,9 +103,7 @@ export default function Home() {
           </AccordionItem>
         </Accordion>
 
-
         <div className="h-[10px]"></div>
-
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -117,12 +113,16 @@ export default function Home() {
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently save your name as <Badge>{name || "No name entered"}</Badge>. Are you sure you want to continue?
+                This action cannot be undone. This will permanently save your
+                name as <Badge>{name || "No name entered"}</Badge>. Are you sure
+                you want to continue?
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleContinueClick}>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={handleContinueClick}>
+                Continue
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

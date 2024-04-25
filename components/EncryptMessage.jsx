@@ -11,10 +11,13 @@ import { Button } from "@/components/ui/button";
 import TypingAnimator from "react-typing-animator";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import { CopyIcon } from "@radix-ui/react-icons";
+import { CopyIcon, LockClosedIcon } from "@radix-ui/react-icons";
+import copy from "clipboard-copy";
+import { CopyCheckIcon } from "lucide-react";
 
 const EncryptMessage = () => {
   const { toast } = useToast();
+  const [IsCopied, setIsCopied] = useState(false);
   const [password, setPassword] = useState();
   const [encrypted, setEncrypted] = useState();
   const [encryptedInput, setEncryptedInput] = useState();
@@ -162,8 +165,14 @@ const EncryptMessage = () => {
       });
       return;
     }
-    
+
     window.localStorage.setItem("password", password);
+    let data = {
+      password: password,
+      message: encryptedInput,
+    };
+
+    
     setEncrypted(encryptedInput);
   };
 
@@ -172,8 +181,8 @@ const EncryptMessage = () => {
     setPassword(password);
   };
 
-  const handleCopy = () => {
-    if(!encrypted){
+  const handleCopy = async () => {
+    if (!encrypted) {
       toast({
         title: "Uh oh! Something went wrong.",
         description: "Please encrypt the message first.",
@@ -181,16 +190,17 @@ const EncryptMessage = () => {
       });
       return;
     }
-    navigator.clipboard.writeText(encrypted);
+    await copy(encrypted);
+    setIsCopied(true);
     toast({
       title: "Copied to clipboard",
       description: "The encrypted message has been copied to the clipboard.",
       action: <ToastAction altText="Close">Close</ToastAction>,
     });
-  }
+  };
   // var textArray = ["Created by Aditya Yadav", "Yes"];
   return (
-    <div className="h-[450px] w-full mt-[30px] flex items-center justify-center flex-col">
+    <div className="h-[450px] w-full mt-[30px] flex items-center justify-center flex-col max-w-[500px]">
       <div className="w-full">
         <Label htmlFor="text">The message to Encrypt</Label>
         <Textarea
@@ -218,17 +228,20 @@ const EncryptMessage = () => {
         <div className="h-10"></div>
         <Label htmlFor="password">Encrypted Message</Label>
         <div className="flex items-center justify-between">
-        <Textarea
-          value={encrypted}
-          type="text"
-          id="text"
-          placeholder="Encrypted message will appear here..."
-          className="max-h-[100px] transition-all duration-500 ease-in-out w-[80%]"
-          disabled
-        />
-        <div className="h-ful">
-          <Button onClick={handleCopy}> <CopyIcon /> </Button>
-        </div>
+          <Textarea
+            value={encrypted}
+            type="text"
+            id="text"
+            placeholder="Encrypted message will appear here..."
+            className="max-h-[100px] transition-all duration-500 ease-in-out w-[80%]"
+            disabled
+          />
+          <div className="h-ful">
+            <Button onClick={handleCopy}>
+              {" "}
+              {IsCopied ? <CopyCheckIcon /> : <CopyIcon />}{" "}
+            </Button>
+          </div>
         </div>
 
         {/* <TypingAnimator className=" transition-all duration-500 ease-in-out"
@@ -244,7 +257,7 @@ const EncryptMessage = () => {
 
         <div className="h-10"></div>
         <Button className="w-full" onClick={handleEncryptClick}>
-          Encrypt
+          <LockClosedIcon /> Encrypt
         </Button>
       </div>
     </div>

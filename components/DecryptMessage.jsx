@@ -8,13 +8,16 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
-import { CopyIcon } from "@radix-ui/react-icons";
+import { CopyIcon, LockOpen1Icon } from "@radix-ui/react-icons";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import copy from 'clipboard-copy';
+import { CopyCheckIcon } from "lucide-react";
 
 const DecryptMessage = () => {
   const { toast } = useToast();
   
+  const [IsCopied, setIsCopied] = useState(false);
   const [decrypted, setDecrypted] = useState();
   const [encrypted, setEncrypted] = useState();
 
@@ -148,6 +151,7 @@ const DecryptMessage = () => {
     special.forEach((char, index) => {
       charToEmoji[char] = emojis[index];
     });
+
     const emojiToChar = {};
 
     special.forEach((char, index) => {
@@ -160,7 +164,7 @@ const DecryptMessage = () => {
     setDecrypted(decryptedMessage);
   };
 
-  const handleCopy = () => {
+  const handleCopy = async() => {
     if(!decrypted){
       toast({
         title: "Uh oh! Something went wrong.",
@@ -169,7 +173,10 @@ const DecryptMessage = () => {
       });
       return;
     }
-    navigator.clipboard.writeText(encrypted);
+    
+    await copy(decrypted);
+    setIsCopied(true);
+
     toast({
       title: "Copied to clipboard",
       description: "The encrypted message has been copied to the clipboard.",
@@ -177,7 +184,7 @@ const DecryptMessage = () => {
     });
   }
   return (
-    <div className="h-[450px] w-full mt-[30px] flex items-center justify-center flex-col">
+    <div className="h-[450px] w-full mt-[30px] flex items-center justify-center flex-col max-w-[500px]">
       <div className="w-full">
         <Label htmlFor="text">The message to Decrypt</Label>
         <Textarea
@@ -214,13 +221,16 @@ const DecryptMessage = () => {
           disabled
         />
         <div className="h-ful">
-          <Button onClick={handleCopy}> <CopyIcon /> </Button>
+          <Button onClick={handleCopy}> 
+          {" "}
+          {IsCopied ? <CopyCheckIcon /> : <CopyIcon /> }
+           </Button>
         </div>
         </div>
 
         <div className="h-10"></div>
         <Button className="w-full" onClick={handleDecrypt}>
-          Decrypt
+         <LockOpen1Icon /> Decrypt
         </Button>
       </div>
     </div>
