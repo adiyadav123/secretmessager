@@ -34,8 +34,7 @@ export default function Home() {
     if (name) {
       router.push("/home");
     }
-  
-  })
+  });
 
   const [name, setName] = useState();
 
@@ -78,6 +77,33 @@ export default function Home() {
 
         <div className="h-[20px]"></div>
 
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className="w-full">Continue → </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently save your
+                name as <Badge>{name || "No name entered"}</Badge>. Are you sure
+                you want to continue?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleContinueClick}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+
+
+        <div className="h-[50px]"></div>
+
+
         <h1 className="text-[20px] font-bold">FAQs</h1>
         <Accordion type="single" collapsible className="w-full" id="faqs">
           <AccordionItem value="item-1">
@@ -106,30 +132,6 @@ export default function Home() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-
-        <div className="h-[10px]"></div>
-
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button className="w-full">Continue → </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently save your
-                name as <Badge>{name || "No name entered"}</Badge>. Are you sure
-                you want to continue?
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleContinueClick}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
       </div>
     </div>
   );
