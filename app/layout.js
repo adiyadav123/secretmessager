@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Toaster } from "@/components/ui/toaster";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,11 +54,14 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-    <head>
-    <meta name="google-site-verification" content="HONwoEinu5H8XVIyiBFCCOEfWT__Zwfxu9hE9Y8cPtU" />
-    </head>
+      <head>
+        <meta
+          name="google-site-verification"
+          content="HONwoEinu5H8XVIyiBFCCOEfWT__Zwfxu9hE9Y8cPtU"
+        />
+      </head>
       <body className={inter.className}>
-        {children} <Toaster /> <SpeedInsights />
+        {children} <Toaster /> <SpeedInsights /> <Analytics />
       </body>
     </html>
   );
